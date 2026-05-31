@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="description" content="Fidelis Rentals offers quality rental homes in Rolla, MO for Missouri S&T students. Responsive management, fair pricing, no surprises." />
-  <meta name="keywords" content="Rolla MO rentals, Missouri S&T student housing, Fidelis Rentals, houses for rent Rolla" />
-  <link rel="canonical" href="https://fidelisrentals.com/" />    
-  
+  <!-- 1. charset FIRST -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fidelis Rentals — Quality Homes, Trusted Management</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Fidelis Rentals offers quality rental homes in Rolla, MO for Missouri S&T students. Responsive management, fair pricing, no surprises." />
+  <meta name="keywords" content="Rolla MO rentals, Missouri S&T student housing, Fidelis Rentals, houses for rent Rolla" />
+  <link rel="canonical" href="https://fidelisrentals.com/" />
+
+  <!-- 6. Favicon -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+
+  <!-- 5. Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Fidelis Rentals",
+    "url": "https://fidelisrentals.com",
+    "telephone": "(636) 368-6774",
+    "email": "fidelisrentals@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Rolla",
+      "addressRegion": "MO",
+      "postalCode": "65401"
+    }
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +51,7 @@
       --serif: 'Cormorant Garamond', Georgia, serif;
       --sans: 'DM Sans', sans-serif;
     }
-  
+
     html { scroll-behavior: smooth; }
 
     body {
@@ -58,7 +83,6 @@
       letter-spacing: 0.02em;
       text-decoration: none;
     }
-    .nav-logo span { color: var(--gold); }
 
     .nav-links {
       display: flex;
@@ -76,6 +100,56 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--gold); }
+
+    /* 2. Hamburger button */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--cream);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      top: 57px; left: 0; right: 0;
+      background: rgba(13, 31, 15, 0.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(122, 182, 72, 0.2);
+      z-index: 99;
+      flex-direction: column;
+      padding: 1rem 0;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream-dark);
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(122,182,72,0.08);
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a:hover { color: var(--gold); background: rgba(122,182,72,0.05); }
 
     /* ── HERO ── */
     #home {
@@ -219,7 +293,6 @@
       height: 260px;
       overflow: hidden;
       background: var(--navy-mid);
-      /* prevent text selection while swiping */
       user-select: none;
       -webkit-user-select: none;
     }
@@ -230,8 +303,6 @@
       transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
     }
-
-    /* disable transition during drag */
     .gallery-track.dragging { transition: none; }
 
     .gallery-slide {
@@ -243,17 +314,14 @@
       align-items: center;
       justify-content: center;
     }
-
     .gallery-slide svg { width: 100%; height: 100%; }
-
     .gallery-slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      pointer-events: none; /* prevent image drag interfering with swipe */
+      pointer-events: none;
     }
 
-    /* Prev / Next arrows */
     .gallery-btn {
       position: absolute;
       top: 50%;
@@ -279,7 +347,6 @@
     .gallery-btn.next { right: 0.75rem; }
     .gallery-btn svg { width: 18px; height: 18px; }
 
-    /* Dot indicators */
     .gallery-dots {
       position: absolute;
       bottom: 0.9rem;
@@ -298,19 +365,13 @@
       transition: background 0.2s, transform 0.2s;
       border: none;
       padding: 0;
-      /* larger tap target on mobile */
       position: relative;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
-    .gallery-dot::after {
-      content: '';
-      position: absolute;
-      inset: -8px;
-    }
+    .gallery-dot::after { content: ''; position: absolute; inset: -8px; }
     .gallery-dot.active { background: var(--gold); transform: scale(1.3); }
 
-    /* Slide counter */
     .gallery-counter {
       position: absolute;
       top: 0.65rem;
@@ -395,7 +456,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .about-img-frame::before {
       content: '';
       position: absolute;
@@ -451,10 +511,7 @@
       margin-top: 2.5rem;
     }
 
-    .value-item {
-      border-left: 2px solid rgba(122,182,72,0.4);
-      padding-left: 1rem;
-    }
+    .value-item { border-left: 2px solid rgba(122,182,72,0.4); padding-left: 1rem; }
 
     .value-title {
       font-family: var(--serif);
@@ -505,33 +562,17 @@
       color: var(--text-body);
     }
 
-    .contact-icon {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      margin-top: 1px;
-      color: var(--gold);
-    }
+    .contact-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; color: var(--gold); }
 
-    /* FORM */
     .contact-form {
       background: var(--white);
       border: 1px solid var(--cream-dark);
       padding: 2.5rem;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1.25rem;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.25rem; }
 
     .form-group label {
       font-size: 0.72rem;
@@ -548,21 +589,16 @@
       background: var(--cream);
       padding: 0.75rem 1rem;
       font-family: var(--sans);
-      font-size: 0.9rem;
+      font-size: 16px; /* prevents iOS zoom */
       color: var(--text-body);
       outline: none;
       transition: border-color 0.2s;
       width: 100%;
-      /* prevent zoom on iOS */
-      font-size: 16px;
     }
 
     .form-group input:focus,
     .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--gold);
-      background: var(--white);
-    }
+    .form-group textarea:focus { border-color: var(--gold); background: var(--white); }
 
     .form-group textarea { resize: vertical; min-height: 120px; }
 
@@ -584,21 +620,7 @@
     .form-submit:hover { background: var(--navy-mid); }
     .form-submit:active { background: var(--navy-light); }
 
-    .form-note {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 0.75rem;
-    }
-
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 2rem;
-      color: var(--navy);
-      font-family: var(--serif);
-      font-size: 1.2rem;
-    }
+    .form-note { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.75rem; }
 
     /* ── FOOTER ── */
     footer {
@@ -612,14 +634,7 @@
       gap: 1rem;
     }
 
-    .footer-logo {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      color: var(--cream);
-      font-weight: 600;
-    }
-    .footer-logo span { color: var(--gold); }
-
+    .footer-logo { font-family: var(--serif); font-size: 1.3rem; color: var(--cream); font-weight: 600; }
     .footer-copy { font-size: 0.78rem; color: rgba(220,235,215,0.4); }
 
     /* ── ANIMATION ── */
@@ -628,17 +643,14 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
       section { padding: 4rem 1.5rem; }
       #about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -647,7 +659,6 @@
       footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
       .hero-content { padding: 0 1.5rem; }
       .property-gallery { height: 220px; }
-      /* smaller arrows on mobile, always visible */
       .gallery-btn { width: 32px; height: 32px; }
       .gallery-btn svg { width: 14px; height: 14px; }
       .gallery-btn.prev { left: 0.4rem; }
@@ -666,6 +677,18 @@
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <!-- 2. Hamburger -->
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- 2. Mobile drawer -->
+<nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="#home"       onclick="closeDrawer()">Home</a>
+  <a href="#properties" onclick="closeDrawer()">Rentals</a>
+  <a href="#about"      onclick="closeDrawer()">About</a>
+  <a href="#contact"    onclick="closeDrawer()">Contact</a>
 </nav>
 
 <!-- HERO -->
@@ -699,58 +722,30 @@
       <div class="property-gallery" data-gallery="0">
         <div class="gallery-track">
           <div class="gallery-slide">
-            <img src="photos/1107/kitchen.jpeg" alt="Kitchen" />
+            <!-- 7. lazy load, 8. descriptive alt -->
+            <img src="photos/1107/kitchen.jpeg" alt="Kitchen at 1107 E 9th Street, Rolla MO" loading="lazy" />
           </div>
           <div class="gallery-slide">
-            <img src="photos/1107/bathroom.jpeg" alt="Bathroom" />
+            <img src="photos/1107/bathroom.jpeg" alt="Bathroom at 1107 E 9th Street, Rolla MO" loading="lazy" />
           </div>
           <div class="gallery-slide">
-            <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
-              <rect width="480" height="260" fill="#172e19"/>
-              <rect x="0" y="200" width="480" height="60" fill="#1a3a1c"/>
-              <rect x="0" y="0" width="480" height="200" fill="#1f3d22" opacity="0.6"/>
-              <rect x="70" y="80" width="340" height="140" fill="#243d27" rx="2"/>
-              <polygon points="55,80 240,20 425,80" fill="#1a2e1b"/>
-              <polygon points="55,80 240,20 425,80" fill="#2d5c2f" opacity="0.4"/>
-              <rect x="300" y="10" width="28" height="50" fill="#1a2e1b"/>
-              <rect x="200" y="158" width="60" height="62" fill="#0d1f0f" rx="2"/>
-              <circle cx="255" cy="190" r="4" fill="#7ab648"/>
-              <line x1="230" y1="158" x2="230" y2="220" stroke="#172e19" stroke-width="1.5"/>
-              <rect x="90" y="110" width="75" height="55" fill="#0d1f0f" rx="2"/>
-              <line x1="127" y1="110" x2="127" y2="165" stroke="#172e19" stroke-width="1.5"/>
-              <line x1="90" y1="137" x2="165" y2="137" stroke="#172e19" stroke-width="1.5"/>
-              <rect x="315" y="110" width="75" height="55" fill="#0d1f0f" rx="2"/>
-              <line x1="352" y1="110" x2="352" y2="165" stroke="#172e19" stroke-width="1.5"/>
-              <line x1="315" y1="137" x2="390" y2="137" stroke="#172e19" stroke-width="1.5"/>
-              <rect x="185" y="218" width="110" height="8" fill="#1a3a1c"/>
-              <rect x="175" y="226" width="130" height="8" fill="#172e19"/>
-              <rect x="20" y="140" width="10" height="80" fill="#0d1f0f"/>
-              <ellipse cx="25" cy="125" rx="28" ry="35" fill="#2d5c2f"/>
-              <ellipse cx="25" cy="115" rx="20" ry="28" fill="#3a7040"/>
-              <rect x="435" y="148" width="10" height="70" fill="#0d1f0f"/>
-              <ellipse cx="440" cy="132" rx="25" ry="30" fill="#2d5c2f"/>
-              <ellipse cx="440" cy="122" rx="18" ry="24" fill="#3a7040"/>
-              <ellipse cx="185" cy="218" rx="22" ry="14" fill="#2d5c2f"/>
-              <ellipse cx="295" cy="218" rx="22" ry="14" fill="#2d5c2f"/>
-              <rect x="215" y="226" width="50" height="34" fill="#1f3d22"/>
-              <line x1="0" y1="259" x2="480" y2="259" stroke="#7ab648" stroke-width="1" opacity="0.35"/>
-            </svg>
+            <img src="photos/1107/basement.jpeg" alt="Basement at 1107 E 9th Street, Rolla MO" loading="lazy" />
           </div>
-        </div><!-- end .gallery-track -->
-        <button class="gallery-btn prev" aria-label="Previous">
+        </div>
+        <button class="gallery-btn prev" aria-label="Previous photo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <button class="gallery-btn next" aria-label="Next">
+        <button class="gallery-btn next" aria-label="Next photo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <div class="gallery-dots">
-          <button class="gallery-dot active"></button>
-          <button class="gallery-dot"></button>
-          <button class="gallery-dot"></button>
+          <button class="gallery-dot active" aria-label="Photo 1"></button>
+          <button class="gallery-dot" aria-label="Photo 2"></button>
+          <button class="gallery-dot" aria-label="Photo 3"></button>
         </div>
         <span class="gallery-counter">1 / 3</span>
         <span class="property-badge badge-taken">Available 8/1/27</span>
-      </div><!-- end .property-gallery -->
+      </div>
       <div class="property-body">
         <h3 class="property-name">1107 E 9th Street</h3>
         <p class="property-location">Rolla, MO 65401</p>
@@ -760,14 +755,14 @@
           <span>🚿 2 Baths</span>
         </div>
       </div>
-    </div><!-- end .property-card -->
+    </div>
 
     <!-- Property 2 -->
     <div class="property-card reveal">
       <div class="property-gallery" data-gallery="1">
         <div class="gallery-track">
           <div class="gallery-slide">
-            <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Illustrated building exterior">
               <rect width="480" height="260" fill="#1f3d22"/>
               <rect x="0" y="200" width="480" height="60" fill="#172e19"/>
               <rect x="0" y="0" width="480" height="200" fill="#243d27" opacity="0.5"/>
@@ -807,52 +802,20 @@
               <line x1="0" y1="259" x2="480" y2="259" stroke="#7ab648" stroke-width="1" opacity="0.35"/>
             </svg>
           </div>
-          <div class="gallery-slide">
-            <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
-              <rect width="480" height="260" fill="#172e19"/>
-              <rect x="0" y="0" width="480" height="185" fill="#1f3d22"/>
-              <rect x="0" y="185" width="480" height="75" fill="#172e19"/>
-              <line x1="0" y1="210" x2="480" y2="210" stroke="#1a3a1c" stroke-width="1"/>
-              <line x1="0" y1="235" x2="480" y2="235" stroke="#1a3a1c" stroke-width="1"/>
-              <line x1="160" y1="185" x2="160" y2="260" stroke="#1a3a1c" stroke-width="0.5"/>
-              <line x1="320" y1="185" x2="320" y2="260" stroke="#1a3a1c" stroke-width="0.5"/>
-              <rect x="50" y="20" width="180" height="130" fill="#2d5c2f" rx="2"/>
-              <rect x="58" y="28" width="80" height="114" fill="#3a7040" opacity="0.35"/>
-              <rect x="146" y="28" width="76" height="114" fill="#3a7040" opacity="0.35"/>
-              <line x1="142" y1="20" x2="142" y2="150" stroke="#243d27" stroke-width="2"/>
-              <polygon points="50,150 230,150 360,260 0,260" fill="#a0d470" opacity="0.04"/>
-              <rect x="260" y="110" width="180" height="90" fill="#1a2e1b" rx="3"/>
-              <rect x="265" y="115" width="170" height="80" fill="#243d27" rx="2"/>
-              <rect x="260" y="100" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="310" y="100" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="360" y="100" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="260" y="197" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="310" y="197" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="360" y="197" width="36" height="14" fill="#1f3d22" rx="2"/>
-              <rect x="30" y="185" width="180" height="50" fill="#1f3d22" rx="3"/>
-              <rect x="30" y="175" width="180" height="14" fill="#2d5c2f" rx="2"/>
-              <line x1="240" y1="0" x2="240" y2="30" stroke="#0d1f0f" stroke-width="1.5"/>
-              <ellipse cx="240" cy="35" rx="20" ry="8" fill="#1a2e1b"/>
-              <ellipse cx="240" cy="38" rx="14" ry="5" fill="#7ab648" opacity="0.3"/>
-              <line x1="350" y1="0" x2="350" y2="25" stroke="#0d1f0f" stroke-width="1.5"/>
-              <ellipse cx="350" cy="30" rx="20" ry="8" fill="#1a2e1b"/>
-              <ellipse cx="350" cy="33" rx="14" ry="5" fill="#7ab648" opacity="0.3"/>
-            </svg>
-          </div>
-        </div><!-- end .gallery-track -->
-        <button class="gallery-btn prev" aria-label="Previous">
+        </div>
+        <button class="gallery-btn prev" aria-label="Previous photo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <button class="gallery-btn next" aria-label="Next">
+        <button class="gallery-btn next" aria-label="Next photo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <div class="gallery-dots">
-          <button class="gallery-dot active"></button>
-          <button class="gallery-dot"></button>
+          <button class="gallery-dot active" aria-label="Photo 1"></button>
+          <button class="gallery-dot" aria-label="Photo 2"></button>
         </div>
         <span class="gallery-counter">1 / 2</span>
         <span class="property-badge badge-soon">Coming Soon</span>
-      </div><!-- end .property-gallery -->
+      </div>
       <div class="property-body">
         <h3 class="property-name">Future Unit</h3>
         <p class="property-location">Rolla, MO 65401</p>
@@ -863,7 +826,7 @@
           <span>🏢 Multi-Unit</span>
         </div>
       </div>
-    </div><!-- end .property-card -->
+    </div>
 
   </div>
 </section>
@@ -872,7 +835,7 @@
 <section id="about">
   <div class="about-visual reveal">
     <div class="about-img-frame">
-      <svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" style="width:70%; opacity:0.7;">
+      <svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" style="width:70%; opacity:0.7;" aria-hidden="true">
         <circle cx="150" cy="120" r="60" fill="none" stroke="#7ab648" stroke-width="0.75" opacity="0.4"/>
         <circle cx="150" cy="120" r="40" fill="none" stroke="#7ab648" stroke-width="0.5" opacity="0.3"/>
         <polygon points="80,160 150,100 220,160" fill="none" stroke="#7ab648" stroke-width="1.5" opacity="0.6"/>
@@ -884,10 +847,6 @@
         <text x="150" y="320" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="14" fill="#7ab648" opacity="0.5" letter-spacing="3">FIDELIS</text>
         <text x="150" y="340" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" fill="#7ab648" opacity="0.35" letter-spacing="5">RENTALS</text>
       </svg>
-    </div>
-    <div class="about-accent-box">
-      <span class="about-accent-num">2</span>
-      <span class="about-accent-label">Properties<br>Managed</span>
     </div>
   </div>
 
@@ -912,7 +871,7 @@
       </div>
       <div class="value-item">
         <p class="value-title">Community</p>
-        <p class="value-desc">The owner is a Missouri S&T Alumni from 2023.</p>
+        <p class="value-desc">The owner is a Missouri S&T Alumnus from 2023.</p>
       </div>
     </div>
   </div>
@@ -932,19 +891,19 @@
       <p>Whether you're interested in a property, have a maintenance request, want to sell us a property, or just want to learn more about Fidelis Rentals — reach out and we'll get back to you promptly.</p>
       <div class="contact-detail">
         <div class="contact-detail-item">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.75L2.25 6.75"/>
           </svg>
           <span>fidelisrentals@gmail.com</span>
         </div>
         <div class="contact-detail-item">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
           </svg>
           <span>(636) 368-6774</span>
         </div>
         <div class="contact-detail-item">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
             <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
           </svg>
@@ -953,7 +912,7 @@
       </div>
     </div>
 
-    <div class="contact-form reveal" id="contactFormWrap">
+    <div class="contact-form reveal">
       <form id="contactForm" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group">
@@ -998,21 +957,49 @@
 <!-- FOOTER -->
 <footer>
   <span class="footer-logo">Fidelis Rentals</span>
-  <span class="footer-copy">© 2025 Fidelis Rentals, Rolla MO. All rights reserved.</span>
+  <!-- 9. Dynamic year -->
+  <span class="footer-copy">© <span id="year"></span> Fidelis Rentals, Rolla MO. All rights reserved.</span>
 </footer>
 
 <script>
+  // 9. Auto year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // 2. Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navDrawer = document.getElementById('navDrawer');
+
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    navDrawer.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    navDrawer.setAttribute('aria-hidden', 'true');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = navDrawer.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    navDrawer.setAttribute('aria-hidden', !isOpen);
+  });
+
+  // Close drawer if user clicks outside
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !navDrawer.contains(e.target)) {
+      closeDrawer();
+    }
+  });
+
   // ── Gallery ──
   function initGallery(gallery) {
-    const id = gallery.dataset.gallery;
-    const track = gallery.querySelector('.gallery-track');
-    const slides = gallery.querySelectorAll('.gallery-slide');
-    const dots = gallery.querySelectorAll('.gallery-dot');
+    const track   = gallery.querySelector('.gallery-track');
+    const slides  = gallery.querySelectorAll('.gallery-slide');
+    const dots    = gallery.querySelectorAll('.gallery-dot');
     const counter = gallery.querySelector('.gallery-counter');
     const prevBtn = gallery.querySelector('.gallery-btn.prev');
     const nextBtn = gallery.querySelector('.gallery-btn.next');
-    const total = slides.length;
-    let current = 0;
+    const total   = slides.length;
+    let current   = 0;
 
     function go(index) {
       current = (index + total) % total;
@@ -1025,36 +1012,28 @@
     nextBtn.addEventListener('click', () => go(current + 1));
     dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
 
-    // Touch / drag swipe
+    // Touch swipe
     let startX = 0, startY = 0, diffX = 0, dragging = false;
 
     gallery.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
-      diffX = 0;
-      dragging = false;
+      diffX = 0; dragging = false;
     }, { passive: true });
 
     gallery.addEventListener('touchmove', e => {
       diffX = startX - e.touches[0].clientX;
       const diffY = startY - e.touches[0].clientY;
-      if (!dragging && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 5) {
-        dragging = true;
-      }
+      if (!dragging && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 5) dragging = true;
       if (dragging) {
-        const offset = current * 100 + (diffX / gallery.offsetWidth) * 100;
         track.classList.add('dragging');
-        track.style.transform = `translateX(-${offset}%)`;
+        track.style.transform = `translateX(-${current * 100 + (diffX / gallery.offsetWidth) * 100}%)`;
       }
     }, { passive: true });
 
     gallery.addEventListener('touchend', () => {
       track.classList.remove('dragging');
-      if (dragging && Math.abs(diffX) > 40) {
-        go(current + (diffX > 0 ? 1 : -1));
-      } else {
-        go(current); // snap back
-      }
+      go(dragging && Math.abs(diffX) > 40 ? current + (diffX > 0 ? 1 : -1) : current);
       dragging = false;
     });
   }
@@ -1062,7 +1041,6 @@
   document.querySelectorAll('.property-gallery').forEach(initGallery);
 
   // ── Scroll reveal ──
-  const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -1071,7 +1049,7 @@
       }
     });
   }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // ── Form → mailto ──
   function handleSubmit(e) {
